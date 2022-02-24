@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const secret = "Hi how are man. Plzz listen to Naval Ravikants podcast.";
-userSchema.plugin(encrypt, { secret: secret,  encryptedFields: ["passwords"]  });
+userSchema.plugin(encrypt, { secret: secret,  encryptedFields: ["password"]  });
 
 const User = new mongoose.model("User", userSchema);
 
@@ -60,8 +60,10 @@ app.post("/login", function(req, res){
             console.log(err);
         }else{
             if (foundUser){
-                if (foundUser === password){
-                    res.render("home");
+                if (foundUser.password === password){
+                    res.render("secrets");
+                }else{
+                    res.send("Wrong password please try again.")
                 }    
             }
         }
